@@ -1,6 +1,7 @@
 require("dotenv").config();
 require("./config/dbConnection");
 
+
 const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
@@ -10,6 +11,7 @@ const MongoStore = require("connect-mongo")(session);
 const mongoose = require("mongoose");
 const app = express();
 const cors = require("cors");
+
 
 /**
  * Middlewares
@@ -29,6 +31,7 @@ app.use(
     saveUninitialized: true,
   })
 );
+
 
 // Test to see if user is logged In before getting into any router.
 app.use(function (req, res, next) {
