@@ -23,19 +23,24 @@ router.post("/signin", (req, res, next) => {
 });
 
 router.post("/signup", (req, res, next) => {
-  const { email, password, firstName, lastName } = req.body;
+  const { firstName, lastName, hotelName, email, phoneNumber, address, competitors, password1, password2 } = req.body;
+  console.log("ici");
+  console.log(req.body);
 
   User.findOne({ email }).then((userDocument) => {
     if (userDocument) {
       return res.status(400).json({ message: "Email already taken" });
     }
 
-    const hashedPassword = bcrypt.hashSync(password, salt);
-    const newUser = { email, lastName, firstName, password: hashedPassword };
+    if (password1 !== password2) {
+      return res.status(400).json({ message: "An error occured" });
+    }
+    const hashedPassword = bcrypt.hashSync(password1, salt);
+    const newUser = { firstName, lastName, hotelName, email, phoneNumber, address, competitors, password: hashedPassword };
 
     User.create(newUser).then((newUserDocument) => {
       const userObj = newUserDocument.toObject();
-      delete userObj.password;
+      delete userObj.password1;
       req.session.currentUser = userObj;
       res.status(201).json(userObj);
     });
