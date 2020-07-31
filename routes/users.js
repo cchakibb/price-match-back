@@ -15,6 +15,17 @@ User.findById(userId)
 .catch(next);
 
 })
+router.patch("/me",(req,res,next) => {
+  console.log(req.body,"this is req body")
+  const userId = req.session.currentUser._id;
+  User.findByIdAndUpdate(userId, req.body, { new: true })
+  .then((dbRes) => {
+    req.session.currentUser = dbRes;
+    res.status(200).json(dbRes);
+  })
+  .catch(next);
+  
+  })
 
 router
   .route("/:id")
