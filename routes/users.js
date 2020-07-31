@@ -6,6 +6,16 @@ router.get("/", (req, res, next) => {
   res.render();
 });
 
+router.get("/me",(req,res,next) => {
+const userId = req.session.currentUser._id;
+User.findById(userId)
+.then((dbRes) => {
+  res.status(200).json(dbRes);
+})
+.catch(next);
+
+})
+
 router
   .route("/:id")
   //! User.find() absent car on affichera pas TOUS les Users

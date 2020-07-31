@@ -21,7 +21,7 @@ const userSchema = new Schema({
     coordinates: {
       type: [Number],
     },
-    formattedAddress: String,
+   formattedAddress: String,
   },
   competitors: [{ type: String }],
 });
