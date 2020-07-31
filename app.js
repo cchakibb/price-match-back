@@ -1,7 +1,6 @@
 require("dotenv").config();
 require("./config/dbConnection");
 
-
 const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
@@ -11,7 +10,6 @@ const MongoStore = require("connect-mongo")(session);
 const mongoose = require("mongoose");
 const app = express();
 const cors = require("cors");
-
 
 /**
  * Middlewares
@@ -32,7 +30,6 @@ app.use(
   })
 );
 
-
 // Test to see if user is logged In before getting into any router.
 app.use(function (req, res, next) {
   console.log(req.session.currentUser);
@@ -46,10 +43,12 @@ app.use(function (req, res, next) {
 const indexRouter = require("./routes/index");
 const authRouter = require("./routes/auth");
 const userRouter = require("./routes/users");
+const hoteDataRouter = require("./routes/hotelData");
 
 app.use("/", indexRouter);
 app.use("/api/auth", authRouter);
 app.use("/user", userRouter);
+app.use("/hotelData", hoteDataRouter);
 
 // 404 Middleware
 app.use((req, res, next) => {
