@@ -24,8 +24,6 @@ router.post("/signin", (req, res, next) => {
 
 router.post("/signup", (req, res, next) => {
   const { firstName, lastName, hotelName, email, phoneNumber, address, competitors, password1, password2 } = req.body;
-  console.log("ici");
-  console.log(req.body);
 
   User.findOne({ email }).then((userDocument) => {
     if (userDocument) {
