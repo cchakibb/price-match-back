@@ -14,10 +14,15 @@ router.route("/data").post((req, res, next) => {
 router.route("/").get((req, res, next) => {
  
   Hotel.find()
+ 
     .then((hotels) => {
       res.status(201).json(hotels);
     })
     .catch((error) => res.status(500).json(error));
 });
+
+
+
+
 
 module.exports = router;
