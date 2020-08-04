@@ -12,8 +12,8 @@ router.route("/data").post((req, res, next) => {
 });
 
 router.route("/").get((req, res, next) => {
- 
-  Hotel.find()
+  
+  Hotel.find(req.query)
  
     .then((hotels) => {
       res.status(201).json(hotels);
