@@ -1,64 +1,50 @@
-require('dotenv').config();
-var express = require('express');
-var router = express.Router();
-var nodemailer = require('nodemailer');
+require("dotenv").config();
+const express = require("express");
+const router = express.Router();
+const nodemailer = require("nodemailer");
 
+let transport = {
+  service: "Gmail",
+  auth: {
+    user: process.env.GMAIL_USER,
+    pass: process.env.GMAIL_PWD,
+  },
+};
 
-var transport = {
-    host: 'malaprince@hotmail.fr', // Don’t forget to replace with the SMTP host of your provider
-    service:"Gmail",
-    auth: {
-      user: process.env.USER,
-      pass: process.env.PASS,
-  }
-}
-
-var transporter = nodemailer.createTransport(transport)
+let transporter = nodemailer.createTransport(transport);
 
 transporter.verify((error, success) => {
   if (error) {
     console.log(error);
   } else {
-    console.log('Server is ready to take messages');
+    console.log("Server is ready to take messages");
   }
 });
 
-router.post('/send', (req, res, next) => {
-  var name = req.body.name
-  var email = req.body.email
-  var message = req.body.message
-  var content = `name: ${name} \n email: ${email} \n message: ${message} `
+router.post("/send", (req, res, next) => {
+  const name = req.body.name;
+  const email = req.body.email;
+  const message = req.body.message;
+  const content = `name: ${name} \n email: ${email} \n message: ${message} `;
 
-  var mail = {
+  let mail = {
     from: name,
-    to: 'malaminebah91@gmail.com',  // Change to email address that you want to receive messages on
-    subject: 'New Message from Contact Form tesr',
-    text: content
-  }
+    to: "chakib92@hotmail.fr", // Change to email address that you want to receive messages on
+    subject: "New Message from Contact Form",
+    text: content,
+  };
 
-  transporter.sendMail(mail, (err) => {
+  transporter.sendMail(mail, (err, data) => {
     if (err) {
       res.json({
-        status: 'fail'
-      })
+        status: "fail",
+      });
     } else {
       res.json({
-       status: 'success'
-      })
-      transporter.sendMail({
-    	from: "<your email address>",
-    	to: email,
-    	subject: "Submission was successful",
-    	text: `Thank you for contacting us!\n\nForm details\nName: ${name}\n Email: ${email}\n Message: ${message}`
-  	}, function(error, info){
-    	if(error) {
-      	console.log(error);
-    	} else{
-      	console.log('Message sent: ' + info.response);
-    	}
+        status: "success",
+      });
     }
-      )}
-})
+  });
 });
 
-module.exports =router;
+module.exports = router;
