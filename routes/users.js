@@ -6,26 +6,24 @@ router.get("/", (req, res, next) => {
   res.render();
 });
 
-router.get("/me",(req,res,next) => {
-const userId = req.session.currentUser._id;
-User.findById(userId)
-.then((dbRes) => {
-  res.status(200).json(dbRes);
-})
-.catch(next);
-
-})
-router.patch("/me",(req,res,next) => {
-  console.log(req.body,"this is req body")
+router.get("/me", (req, res, next) => {
+  const userId = req.session.currentUser._id;
+  User.findById(userId)
+    .then((dbRes) => {
+      res.status(200).json(dbRes);
+    })
+    .catch(next);
+});
+router.patch("/me", (req, res, next) => {
+  console.log(req.body, "this is req body");
   const userId = req.session.currentUser._id;
   User.findByIdAndUpdate(userId, req.body, { new: true })
-  .then((dbRes) => {
-    req.session.currentUser = dbRes;
-    res.status(200).json(dbRes);
-  })
-  .catch(next);
-  
-  })
+    .then((dbRes) => {
+      req.session.currentUser = dbRes;
+      res.status(200).json(dbRes);
+    })
+    .catch(next);
+});
 
 router
   .route("/:id")
