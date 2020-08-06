@@ -40,17 +40,24 @@ app.use(function (req, res, next) {
  * Routes
  */
 
-const indexRouter = require("./routes/index");
+
 const authRouter = require("./routes/auth");
 const userRouter = require("./routes/users");
 const hoteDataRouter = require("./routes/hotelData");
 const contactRouter = require("./routes/contact")
 
-app.use("/", indexRouter);
+
 app.use("/api/auth", authRouter);
 app.use("/user", userRouter);
 app.use("/contact",contactRouter)
 app.use("/hotelData", hoteDataRouter);
+
+if (process.env.NODE_ENV === "production") {
+  app.use("*", (req, res, next) => {
+    // If no routes match, send them the React HTML.
+    res.sendFile(__dirname + "/public/index.html");
+  });
+}
 
 // 404 Middleware
 app.use((req, res, next) => {
